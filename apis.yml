@@ -1,9 +1,25 @@
 aid: bluefish-ai
 name: Bluefish AI
-description: Bluefish AI is a company surfaced as a portfolio company of bloomberg-beta, threshold-ventures
-  and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the
-  enrichment pipeline.
+description: Bluefish AI is an enterprise AI marketing platform built for Fortune 500 brands to gain visibility
+  and control over how they are represented across AI channels. The platform spans AI monitoring of brand
+  reputation in AI-native experiences, generative engine optimization (GEO) to improve performance across
+  AI search, GEO measurement frameworks, and agentic commerce tooling for AI-driven buying journeys. It
+  serves search, content, brand, and PR teams. Founded by martech veterans whose prior advertising technologies
+  are now owned by Microsoft and Meta, and backed by enterprise and AI investors including Bloomberg Beta
+  and Threshold Ventures. Bluefish does not currently publish a public developer API, SDKs, or API documentation.
 url: https://raw.githubusercontent.com/api-evangelist/bluefish-ai/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
+image: https://framerusercontent.com/images/HAib9zYaCuHpzLWP2A6EcUxHGM.png
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
@@ -13,9 +29,15 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
 tags:
 - Company
+- Marketing
+- Artificial Intelligence
+- Generative Engine Optimization
+- Brand Safety
+- Agentic Commerce
+- Analytics
 apis: []
 maintainers:
 - FN: Kin Lane
@@ -24,4 +46,23 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://bluefishai.com/
+  url: https://www.bluefishai.com/
+- type: Blog
+  url: https://www.bluefishai.com/blog
+- type: Login
+  url: https://platform.bluefishai.com/login
+- type: Support
+  url: https://www.bluefishai.com/contact
+- type: TermsOfService
+  url: https://www.bluefishai.com/legal/terms-of-service
+- type: PrivacyPolicy
+  url: https://www.bluefishai.com/legal/privacy-policy
+- type: DomainSecurity
+  url: security/bluefish-ai-domain-security.yml
+- type: LLMsTxt
+  url: llms/bluefish-ai-llms.txt
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

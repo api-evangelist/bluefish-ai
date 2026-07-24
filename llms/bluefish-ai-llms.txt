@@ -1,0 +1,27 @@
+# Bluefish AI
+
+> Bluefish AI is an enterprise AI marketing platform built for Fortune 500 brands to gain visibility and control over how they are represented across AI channels. The platform covers AI monitoring, generative engine optimization (GEO), GEO measurement, and agentic commerce. Backed by Bloomberg Beta and Threshold Ventures. As of this writing Bluefish does not publish a public developer API, SDKs, or API documentation.
+
+## Platform
+- [AI Monitoring](https://www.bluefishai.com/): Real-time visibility into brand reputation across AI-native experiences.
+- [GEO Optimization](https://www.bluefishai.com/): Performance optimization across AI search and AI channels.
+- [GEO Measurement](https://www.bluefishai.com/): Measurement frameworks for AI performance.
+- [Agentic Commerce](https://www.bluefishai.com/): Tools for commerce-focused AI channels and AI-driven buying journeys.
+
+## Company
+- [About](https://www.bluefishai.com/about): Company overview and team.
+- [Careers](https://www.bluefishai.com/careers): Open roles.
+- [Contact](https://www.bluefishai.com/contact): Get in touch / request a demo.
+
+## Product
+- [Login](https://platform.bluefishai.com/login): Customer platform sign-in.
+
+## News
+- [Blog](https://www.bluefishai.com/blog): News and insights from Bluefish.
+
+## Legal
+- [Terms of Service](https://www.bluefishai.com/legal/terms-of-service)
+- [Privacy Policy](https://www.bluefishai.com/legal/privacy-policy)
+
+## APIs
+- No public developer API is currently published.
