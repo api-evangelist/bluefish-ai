@@ -3,33 +3,41 @@ name: Bluefish AI
 description: Bluefish AI is an enterprise AI marketing platform built for Fortune 500 brands to gain visibility
   and control over how they are represented across AI channels. The platform spans AI monitoring of brand
   reputation in AI-native experiences, generative engine optimization (GEO) to improve performance across
-  AI search, GEO measurement frameworks, and agentic commerce tooling for AI-driven buying journeys. It
-  serves search, content, brand, and PR teams. Founded by martech veterans whose prior advertising technologies
-  are now owned by Microsoft and Meta, and backed by enterprise and AI investors including Bloomberg Beta
-  and Threshold Ventures. Bluefish does not currently publish a public developer API, SDKs, or API documentation.
+  AI search, GEO measurement frameworks, AI brand safety and accuracy verification, and agentic commerce
+  tooling for AI-driven buying journeys. It serves search, content, brand, and PR teams. Founded by martech
+  veterans whose prior advertising technologies are now owned by Microsoft and Meta, and backed by enterprise
+  and AI investors including Bloomberg Beta and Threshold Ventures, with a $43M Series B in 2026. Bluefish
+  publishes no developer documentation, OpenAPI definition, or SDKs, but it does operate a live first-party
+  remote MCP server at platform.bluefishai.com/mcp, protected by OAuth 2.1 with full RFC 9728 and RFC 8414
+  discovery and offered to customers as a connected app.
 url: https://raw.githubusercontent.com/api-evangelist/bluefish-ai/refs/heads/main/apis.yml
 accessModel:
-  pricing: unknown
-  onboarding: unknown
+  pricing: enterprise
+  onboarding: sales
   trial: false
   try_now: false
   public: false
-  label: Unknown
-  confidence: low
-  source: []
-  generated: '2026-07-22'
-  method: derived
+  label: Customer-only
+  confidence: medium
+  source:
+  - https://www.bluefishai.com/contact/sales
+  - https://platform.bluefishai.com/connected-apps/authorize
+  generated: '2026-08-13'
+  method: probed
+  note: No public pricing or self-service sign-up. The MCP OAuth authorization endpoint sits behind the
+    authenticated customer platform, so agent access is available to existing customers rather than to
+    the open public.
 image: https://framerusercontent.com/images/HAib9zYaCuHpzLWP2A6EcUxHGM.png
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - bloomberg-beta
 - threshold-ventures
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: profiled
+x-tier-reason: live-agent-surface-discovered
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-18'
+modified: '2026-08-13'
 tags:
 - Company
 - Marketing
@@ -38,7 +46,30 @@ tags:
 - Brand Safety
 - Agentic Commerce
 - Analytics
-apis: []
+- MCP
+- Agents
+apis:
+- aid: bluefish-ai-mcp
+  name: Bluefish AI MCP Server
+  description: A live, first-party remote Model Context Protocol server that makes the Bluefish AI platform
+    callable by agents over Streamable HTTP. It is protected by OAuth 2.1 and requires the mcp:connect
+    scope; an unauthenticated request returns 401 with an RFC 9728 resource_metadata challenge pointing
+    at the protected-resource document. Bluefish does not document this endpoint anywhere on its public
+    site; it was discovered by probing, and the tool list remains auth-gated.
+  humanURL: https://www.bluefishai.com/platform
+  baseURL: https://platform.bluefishai.com/mcp
+  tags:
+  - MCP
+  - Agents
+  - Artificial Intelligence
+  - Marketing
+  properties:
+  - type: MCPServer
+    url: mcp/bluefish-ai-mcp.yml
+  - type: Authentication
+    url: authentication/bluefish-ai-authentication.yml
+  - type: OAuthScopes
+    url: scopes/bluefish-ai-scopes.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -52,7 +83,7 @@ common:
 - type: Login
   url: https://platform.bluefishai.com/login
 - type: Support
-  url: https://www.bluefishai.com/contact
+  url: https://www.bluefishai.com/contact/support
 - type: TermsOfService
   url: https://www.bluefishai.com/legal/terms-of-service
 - type: PrivacyPolicy
@@ -61,8 +92,25 @@ common:
   url: security/bluefish-ai-domain-security.yml
 - type: LLMsTxt
   url: llms/bluefish-ai-llms.txt
+- type: MCPServer
+  url: mcp/bluefish-ai-mcp.yml
+- type: Authentication
+  url: authentication/bluefish-ai-authentication.yml
+- type: OAuthScopes
+  url: scopes/bluefish-ai-scopes.yml
+- type: WellKnown
+  url: well-known/bluefish-ai-well-known.yml
+- type: Conformance
+  url: conformance/bluefish-ai-conformance.yml
+- type: Plans
+  url: plans/bluefish-ai-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/bluefish-ai-rate-limits.yml
 x-enrichment:
-  date: '2026-07-19'
-  status: backfilled
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 9
   pass: local-v1
-  note: backfilled from .gitignore signal + verified work evidence
+  note: Round 2. Contract discovery found a live OAuth-protected remote MCP server at
+    platform.bluefishai.com/mcp that the 2026-07-18 pass missed; the earlier all-404 well-known result
+    is superseded by three real 200 discovery documents.
