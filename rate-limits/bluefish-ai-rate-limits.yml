@@ -1,0 +1,25 @@
+generated: '2026-08-13'
+method: searched
+source: https://platform.bluefishai.com/mcp
+limit_count: 0
+limits: []
+note: >-
+  No rate limits are published. Bluefish has no developer documentation of any kind —
+  no docs host, no API reference, no llms.txt — so there is no page on which limits
+  could be stated. The one live callable surface, the MCP endpoint at
+  https://platform.bluefishai.com/mcp, was probed unauthenticated and its 401
+  responses carry no RateLimit-*, X-RateLimit-* or Retry-After headers, so no runtime
+  rate-limit signal could be observed either. Whether limits are enforced behind
+  authentication is unknown and is not guessed here. Recorded as an explicit zero.
+headers_observed: []
+headers_note: >-
+  Response headers on the unauthenticated 401 are security/CSP headers only
+  (strict-transport-security, content-security-policy, x-content-type-options,
+  referrer-policy, permissions-policy) plus the RFC 6750 www-authenticate challenge.
+exhaustion_status: null
+x-evidence:
+  fetched: '2026-08-13'
+  probes:
+  - {url: 'https://platform.bluefishai.com/mcp', status: 401, note: 'no rate-limit headers present in response'}
+  - {url: 'https://www.bluefishai.com/llms.txt', status: 404}
+  - {url: 'https://platform.bluefishai.com/llms.txt', status: 404}

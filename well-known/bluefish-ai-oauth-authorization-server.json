@@ -1,0 +1,36 @@
+{
+    "authorization_endpoint": "https://platform.bluefishai.com/connected-apps/authorize",
+    "client_id_metadata_document_supported": true,
+    "code_challenge_methods_supported": [
+        "S256"
+    ],
+    "grant_types_supported": [
+        "authorization_code",
+        "refresh_token",
+        "urn:ietf:params:oauth:grant-type:jwt-bearer"
+    ],
+    "issuer": "https://auth.bluefishai.com",
+    "jwks_uri": "https://auth.bluefishai.com/.well-known/jwks.json",
+    "registration_endpoint": "https://auth.bluefishai.com/v1/oauth2/register",
+    "request_id": "request-id-live-5cab7491-f1db-4ed2-a34b-3a7846309fa4",
+    "response_types_supported": [
+        "code",
+        "code token"
+    ],
+    "scopes_supported": [
+        "openid",
+        "profile",
+        "email",
+        "phone",
+        "offline_access",
+        "mcp:connect"
+    ],
+    "status_code": 200,
+    "token_endpoint": "https://auth.bluefishai.com/v1/oauth2/token",
+    "token_endpoint_auth_methods_supported": [
+        "client_secret_basic",
+        "client_secret_post",
+        "none"
+    ],
+    "userinfo_endpoint": "https://auth.bluefishai.com/v1/oauth2/userinfo"
+}

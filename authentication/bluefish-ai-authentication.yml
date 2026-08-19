@@ -1,0 +1,81 @@
+generated: '2026-08-13'
+method: probed
+source: https://auth.bluefishai.com/.well-known/oauth-authorization-server
+note: >-
+  Not derived from an OpenAPI — Bluefish publishes no spec. This profile is read
+  directly from the provider's own live OAuth 2.0 Authorization Server Metadata
+  (RFC 8414), OpenID Connect Discovery document, and the RFC 9728 protected-resource
+  metadata for the MCP endpoint. Every value below is copied from a 200 response
+  captured in well-known/. Bluefish does not document authentication anywhere on its
+  public site, so these machine-readable discovery documents are the only published
+  description of how to authenticate, and they are complete enough to implement
+  against.
+summary:
+  types: [oauth2, openIdConnect]
+  api_key_in: []
+  oauth2_flows: [authorizationCode]
+  protected_resources: [https://platform.bluefishai.com/mcp]
+  public_self_service: false
+  public_self_service_note: >-
+    The authorization endpoint sits on the authenticated customer platform at
+    /connected-apps/authorize (307s to login when anonymous), so obtaining a token
+    requires an existing Bluefish customer account. Dynamic client registration is
+    open, but consent is customer-gated.
+schemes:
+- name: BluefishOAuth2
+  type: oauth2
+  sources: [well-known/bluefish-ai-oauth-authorization-server.json]
+  issuer: https://auth.bluefishai.com
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://platform.bluefishai.com/connected-apps/authorize
+    tokenUrl: https://auth.bluefishai.com/v1/oauth2/token
+    refreshUrl: https://auth.bluefishai.com/v1/oauth2/token
+    scopes_count: 7
+  grant_types: [authorization_code, refresh_token, 'urn:ietf:params:oauth:grant-type:jwt-bearer']
+  response_types: [code, code token]
+  pkce:
+    required_methods: [S256]
+    plain_supported: false
+  token_endpoint_auth_methods: [client_secret_basic, client_secret_post, none]
+  dynamic_client_registration:
+    supported: true
+    registration_endpoint: https://auth.bluefishai.com/v1/oauth2/register
+    spec: RFC 7591
+  client_id_metadata_document_supported: true
+- name: BluefishOIDC
+  type: openIdConnect
+  sources: [well-known/bluefish-ai-openid-configuration.json]
+  openIdConnectUrl: https://auth.bluefishai.com/.well-known/openid-configuration
+  issuer: https://auth.bluefishai.com
+  userinfo_endpoint: https://auth.bluefishai.com/v1/oauth2/userinfo
+  end_session_endpoint: https://platform.bluefishai.com/connected-apps/authorize
+  jwks_uri: https://auth.bluefishai.com/.well-known/jwks.json
+  id_token_signing_alg_values_supported: [RS256]
+  subject_types_supported: [public]
+  response_types: [code]
+  grant_types: [authorization_code]
+token_presentation:
+  style: bearer
+  header: Authorization
+  evidence: >-
+    POST https://platform.bluefishai.com/mcp without credentials returns 401 with
+    WWW-Authenticate: Bearer error="invalid_token",
+    error_description="No authorization provided".
+divergences:
+- field: grant_types_supported
+  note: >-
+    The RFC 8414 document advertises three grants (authorization_code, refresh_token,
+    jwt-bearer) while the OIDC document advertises only authorization_code. The OIDC
+    document also lists a full_access scope the OAuth document omits, and the OAuth
+    document omits profile/email/phone. The two discovery documents are not in sync;
+    recorded as observed rather than merged silently.
+x-evidence:
+  fetched: '2026-08-13'
+  probes:
+  - {url: 'https://auth.bluefishai.com/.well-known/oauth-authorization-server', status: 200}
+  - {url: 'https://auth.bluefishai.com/.well-known/openid-configuration', status: 200}
+  - {url: 'https://auth.bluefishai.com/.well-known/jwks.json', status: 200}
+  - {url: 'https://platform.bluefishai.com/.well-known/oauth-protected-resource/mcp', status: 200}
+  - {url: 'https://platform.bluefishai.com/mcp', status: 401}
+  - {url: 'https://platform.bluefishai.com/connected-apps/authorize', status: 307}

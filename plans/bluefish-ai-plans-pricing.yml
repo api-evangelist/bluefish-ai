@@ -1,0 +1,23 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.bluefishai.com/
+plan_count: 0
+plans: []
+note: >-
+  Bluefish AI publishes no pricing at all. There is no /pricing or /plans page —
+  both return 404 — and neither appears in the sitemap, which lists every public page
+  on the marketing site. The commercial path is a sales conversation: the site routes
+  to /contact/sales and /contact/support, and the product is positioned exclusively
+  at Fortune 500 brands. No tiers, quotas, overages or list prices are published, and
+  no machine-readable pricing or catalog endpoint exists. Recorded as an explicit zero
+  rather than omitted, so the absence is legible as a measured fact.
+pricing_model: enterprise-contact-sales
+public_pricing: false
+sales_contact: https://www.bluefishai.com/contact/sales
+x-evidence:
+  fetched: '2026-08-13'
+  probes:
+  - {url: 'https://www.bluefishai.com/pricing', status: 404}
+  - {url: 'https://www.bluefishai.com/plans', status: 404}
+  - {url: 'https://www.bluefishai.com/sitemap.xml', status: 200, note: 'no pricing URL present among the listed pages'}
+  - {url: 'https://www.bluefishai.com/contact/sales', status: 200}

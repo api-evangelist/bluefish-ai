@@ -1,27 +1,40 @@
 # Bluefish AI
 
-> Bluefish AI is an enterprise AI marketing platform built for Fortune 500 brands to gain visibility and control over how they are represented across AI channels. The platform covers AI monitoring, generative engine optimization (GEO), GEO measurement, and agentic commerce. Backed by Bloomberg Beta and Threshold Ventures. As of this writing Bluefish does not publish a public developer API, SDKs, or API documentation.
+> Bluefish AI is an enterprise AI marketing platform built for Fortune 500 brands to gain visibility and control over how they are represented across AI channels. The platform spans AI monitoring, generative engine optimization (GEO), GEO measurement, AI brand safety and accuracy, and agentic commerce. Backed by Bloomberg Beta and Threshold Ventures, with a $43M Series B in 2026. Bluefish publishes no developer documentation, no OpenAPI, no SDKs and no llms.txt of its own — but it does operate a live, OAuth-protected remote MCP server, discovered by probe and documented below.
+
+## Agent surface
+- [MCP server](https://platform.bluefishai.com/mcp): Live remote MCP endpoint (Streamable HTTP). Requires OAuth 2.1 with the `mcp:connect` scope; an unauthenticated request returns 401 with an RFC 9728 resource_metadata challenge. Tool list is auth-gated and not published.
+- [MCP vanity host](https://mcp.bluefishai.com): 301 redirects to the platform MCP endpoint above.
+- [Protected resource metadata](https://platform.bluefishai.com/.well-known/oauth-protected-resource/mcp): RFC 9728 document naming the resource and its authorization server.
+- [Authorization server metadata](https://auth.bluefishai.com/.well-known/oauth-authorization-server): RFC 8414 document; authorization code + refresh token + JWT bearer grants, PKCE S256, dynamic client registration.
+- [OpenID Connect discovery](https://auth.bluefishai.com/.well-known/openid-configuration): OIDC discovery document, RS256 ID tokens.
+- [Connected Apps](https://platform.bluefishai.com/connected-apps/authorize): OAuth authorization/consent surface, on the authenticated customer platform.
 
 ## Platform
-- [AI Monitoring](https://www.bluefishai.com/): Real-time visibility into brand reputation across AI-native experiences.
-- [GEO Optimization](https://www.bluefishai.com/): Performance optimization across AI search and AI channels.
-- [GEO Measurement](https://www.bluefishai.com/): Measurement frameworks for AI performance.
-- [Agentic Commerce](https://www.bluefishai.com/): Tools for commerce-focused AI channels and AI-driven buying journeys.
+- [Platform overview](https://www.bluefishai.com/platform): AI Monitoring, GEO Optimization, GEO Measurement, Agentic Commerce, AI Brand Insights, AI Measurement, AI Brand Safety, Citation Impact, and brand data verification/management/optimization.
+- [Solutions](https://www.bluefishai.com/solutions): Use cases for search, content, brand and PR teams.
+- [Login](https://platform.bluefishai.com/login): Customer platform sign-in.
 
 ## Company
 - [About](https://www.bluefishai.com/about): Company overview and team.
 - [Careers](https://www.bluefishai.com/careers): Open roles.
-- [Contact](https://www.bluefishai.com/contact): Get in touch / request a demo.
-
-## Product
-- [Login](https://platform.bluefishai.com/login): Customer platform sign-in.
+- [Contact](https://www.bluefishai.com/contact): General contact.
+- [Sales](https://www.bluefishai.com/contact/sales): Enterprise sales contact — the only commercial path; no public pricing is published.
+- [Support](https://www.bluefishai.com/contact/support): Customer support contact.
 
 ## News
-- [Blog](https://www.bluefishai.com/blog): News and insights from Bluefish.
+- [Blog](https://www.bluefishai.com/blog): Product announcements, research and reports.
+- [State of Enterprise Brands in AI Report 2026](https://www.bluefishai.com/blog/state-of-enterprise-brands-in-ai-report-2026)
+- [Bluefish raises $43 million Series B](https://www.bluefishai.com/blog/bluefish-raises-43-million-series-b-to-power-agentic-marketing-for-the-fortune-500)
+- [Bluefish launches Agentic Campaigns](https://www.bluefishai.com/blog/bluefish-launches-agentic-campaigns-to-power-ai-optimization-workflows-for-the-fortune-500)
 
 ## Legal
 - [Terms of Service](https://www.bluefishai.com/legal/terms-of-service)
 - [Privacy Policy](https://www.bluefishai.com/legal/privacy-policy)
 
-## APIs
-- No public developer API is currently published.
+## Not published
+- No OpenAPI, Swagger, GraphQL or AsyncAPI definition on any Bluefish host.
+- No developer portal, API reference, getting-started guide or changelog.
+- No SDKs or client libraries in npm, PyPI, RubyGems, crates.io or any other registry.
+- No A2A agent card at /.well-known/agent-card.json or /.well-known/agent.json.
+- No security.txt, status page, trust center or published pricing.

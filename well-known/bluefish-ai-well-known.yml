@@ -1,23 +1,90 @@
-generated: '2026-07-18'
+generated: '2026-08-13'
 method: searched
-source: live probes of /.well-known/* on Bluefish AI hosts
-note: No .well-known discovery documents are published. All probed paths returned
-  404. Recorded as negative evidence; no WellKnown pointer wired in apis.yml because
-  nothing was found.
-host: https://bluefishai.com
+source: live probes of /.well-known/* on every Bluefish AI host
+note: >-
+  Round 2 upgrade. The 2026-07-18 pass probed only bluefishai.com and
+  platform.bluefishai.com root paths and recorded an all-404 negative result. This
+  pass discovered mcp.bluefishai.com in DNS, followed its 301 to
+  https://platform.bluefishai.com/mcp, and read the RFC 9728 resource_metadata URL
+  straight out of the 401 WWW-Authenticate challenge header. That pointed at a real
+  200 protected-resource document, which in turn named auth.bluefishai.com as the
+  authorization server, where RFC 8414 and OIDC discovery documents are both served
+  anonymously. Three real discovery documents plus a JWKS are now captured. The
+  WellKnown pointer in apis.yml is earned by these 200s, not asserted.
+hosts_probed:
+- https://bluefishai.com
+- https://www.bluefishai.com
+- https://platform.bluefishai.com
+- https://mcp.bluefishai.com
+- https://auth.bluefishai.com
+host: https://auth.bluefishai.com
 documents:
-- path: /.well-known/security.txt
-  status: 404
-- path: /.well-known/openid-configuration
-  status: 404
+- path: /.well-known/oauth-protected-resource/mcp
+  host: https://platform.bluefishai.com
+  status: 200
+  content_type: application/json
+  file: bluefish-ai-oauth-protected-resource.json
+  spec: RFC 9728 OAuth 2.0 Protected Resource Metadata
+  note: >-
+    Discovered from the WWW-Authenticate challenge on POST
+    https://platform.bluefishai.com/mcp, which advertises
+    resource_metadata="https://platform.bluefishai.com/.well-known/oauth-protected-resource/mcp".
+    The unsuffixed /.well-known/oauth-protected-resource path 404s; only the
+    resource-suffixed form is served.
 - path: /.well-known/oauth-authorization-server
-  status: 404
-- path: /.well-known/api-catalog
-  status: 404
-- path: /.well-known/ai-plugin.json
-  status: 404
-additional_hosts:
+  host: https://auth.bluefishai.com
+  status: 200
+  content_type: application/json
+  file: bluefish-ai-oauth-authorization-server.json
+  spec: RFC 8414 OAuth 2.0 Authorization Server Metadata
+- path: /.well-known/openid-configuration
+  host: https://auth.bluefishai.com
+  status: 200
+  content_type: application/json
+  file: bluefish-ai-openid-configuration.json
+  spec: OpenID Connect Discovery 1.0
+- path: /.well-known/jwks.json
+  host: https://auth.bluefishai.com
+  status: 200
+  content_type: application/json
+  file: null
+  note: >-
+    Served and verified as a real JWKS (RS256 signing keys). Not saved to the repo —
+    signing keys rotate, so a captured snapshot would be stale and misleading. The
+    live URL is the source of truth.
+negative_probes:
 - host: https://platform.bluefishai.com
-  documents:
-  - path: /.well-known/openid-configuration
-    status: 404
+  paths:
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://auth.bluefishai.com
+  paths:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://www.bluefishai.com
+  paths:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /llms.txt, status: 404}
+x-evidence:
+  fetched: '2026-08-13'
+  probes:
+  - {url: 'https://platform.bluefishai.com/mcp', status: 401, note: 'WWW-Authenticate carries resource_metadata'}
+  - {url: 'https://platform.bluefishai.com/.well-known/oauth-protected-resource/mcp', status: 200}
+  - {url: 'https://auth.bluefishai.com/.well-known/oauth-authorization-server', status: 200}
+  - {url: 'https://auth.bluefishai.com/.well-known/openid-configuration', status: 200}
+  - {url: 'https://auth.bluefishai.com/.well-known/jwks.json', status: 200}

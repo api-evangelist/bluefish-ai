@@ -1,0 +1,81 @@
+generated: '2026-08-13'
+method: probed
+source: well-known/ discovery documents + live probes of https://platform.bluefishai.com/mcp
+note: >-
+  Every assertion below is grounded in a document Bluefish itself serves or a
+  response header observed on a live probe. Bluefish makes no published conformance
+  or compliance claims anywhere on its public site, so nothing here is sourced from
+  provider marketing. No Compliance pointer is emitted in apis.yml: no certification
+  (SOC 2, ISO 27001, HIPAA, PCI, FedRAMP) is published on any Bluefish surface, and
+  no trust center exists.
+standards:
+- id: oauth2
+  conforms: true
+  evidence: >-
+    Authorization code flow with refresh tokens served from
+    https://auth.bluefishai.com; token, authorization, registration and userinfo
+    endpoints all declared.
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: true
+  evidence: 'HTTP 200 at https://auth.bluefishai.com/.well-known/oauth-authorization-server'
+- id: rfc9728-oauth-protected-resource-metadata
+  conforms: true
+  evidence: >-
+    HTTP 200 at
+    https://platform.bluefishai.com/.well-known/oauth-protected-resource/mcp, and the
+    401 WWW-Authenticate challenge on the MCP endpoint correctly advertises the
+    resource_metadata parameter as the RFC requires.
+- id: rfc6750-bearer-token-usage
+  conforms: true
+  evidence: >-
+    401 response carries WWW-Authenticate: Bearer error="invalid_token" with an
+    error_description, the RFC 6750 challenge form.
+- id: rfc7636-pkce
+  conforms: true
+  evidence: 'code_challenge_methods_supported: [S256]; plain is not offered'
+- id: rfc7591-dynamic-client-registration
+  conforms: true
+  evidence: 'registration_endpoint: https://auth.bluefishai.com/v1/oauth2/register'
+- id: oidc-discovery
+  conforms: true
+  evidence: >-
+    HTTP 200 at https://auth.bluefishai.com/.well-known/openid-configuration with
+    issuer, jwks_uri, RS256 id_token signing and a userinfo endpoint.
+- id: mcp
+  conforms: true
+  evidence: >-
+    Streamable HTTP MCP endpoint at https://platform.bluefishai.com/mcp implementing
+    the MCP OAuth 2.1 authorization spec (protected-resource metadata + authorization
+    server metadata + PKCE + dynamic client registration).
+- id: openapi
+  conforms: false
+  evidence: >-
+    No OpenAPI or Swagger document found on any host. /openapi.json, /openapi.yaml,
+    /swagger.json, /v1/openapi.json, /api/openapi.json, /api-docs, /docs, /redoc and
+    /api-reference all 404 on www, platform and auth hosts.
+- id: asyncapi
+  conforms: false
+  evidence: No event, streaming or webhook surface is published or documented.
+- id: a2a
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and /.well-known/agent.json return 404 on
+    www.bluefishai.com, platform.bluefishai.com and auth.bluefishai.com.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on every Bluefish host.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Error bodies observed are a flat JSON object ({"error","error_description"} on the
+    MCP endpoint, {"message":"Not authorized"} on /api), not application/problem+json.
+x-evidence:
+  fetched: '2026-08-13'
+  probes:
+  - {url: 'https://platform.bluefishai.com/mcp', status: 401}
+  - {url: 'https://platform.bluefishai.com/.well-known/oauth-protected-resource/mcp', status: 200}
+  - {url: 'https://auth.bluefishai.com/.well-known/oauth-authorization-server', status: 200}
+  - {url: 'https://auth.bluefishai.com/.well-known/openid-configuration', status: 200}
+  - {url: 'https://platform.bluefishai.com/openapi.json', status: 404}
+  - {url: 'https://www.bluefishai.com/.well-known/agent-card.json', status: 404}
+  - {url: 'https://www.bluefishai.com/.well-known/security.txt', status: 404}

@@ -1,0 +1,11 @@
+{
+    "resource": "https://platform.bluefishai.com/mcp",
+    "authorization_servers": [
+        "https://auth.bluefishai.com"
+    ],
+    "scopes_supported": [
+        "openid",
+        "offline_access",
+        "mcp:connect"
+    ]
+}

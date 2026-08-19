@@ -1,0 +1,81 @@
+generated: '2026-08-13'
+method: probed
+status: published
+source: https://platform.bluefishai.com/mcp
+note: >-
+  Bluefish AI runs a live, first-party, OAuth-protected remote MCP server. It is
+  NOT documented on bluefishai.com — the marketing site, the platform page and the
+  sitemap say nothing about an API or MCP, and no llms.txt is served — so this was
+  found by probing rather than by reading. Discovery path: mcp.bluefishai.com
+  resolves in DNS to the same ALB as platform.bluefishai.com and 301s every path to
+  https://platform.bluefishai.com/mcp/<path>; that endpoint answers an unauthenticated
+  POST with HTTP 401 and a WWW-Authenticate Bearer challenge carrying the RFC 9728
+  resource_metadata URL. The metadata document declares resource
+  "https://platform.bluefishai.com/mcp" and authorization server
+  "https://auth.bluefishai.com". Everything here is first-party bluefishai.com
+  infrastructure, so ownership is unambiguous.
+deployment:
+  mode: remote
+  endpoint: https://platform.bluefishai.com/mcp
+  install: null
+  package: null
+  auth: oauth
+  verified: probed
+  aliases:
+  - host: https://mcp.bluefishai.com
+    behavior: 301 permanent redirect to https://platform.bluefishai.com/mcp/<path>
+    note: >-
+      A vanity hostname, not a second server. It is the most discoverable name for
+      this surface and is what led to the endpoint, but an MCP client should be
+      pointed at the platform URL the resource metadata declares as canonical.
+server:
+  name: bluefish-ai
+  transport: http
+  url: https://platform.bluefishai.com/mcp
+  protocol: Streamable HTTP
+  sse_endpoint: null
+  sse_note: /mcp/sse returns 404; only the single Streamable HTTP endpoint is served.
+authorization:
+  spec: OAuth 2.1 for MCP (RFC 9728 protected resource + RFC 8414 authorization server)
+  resource: https://platform.bluefishai.com/mcp
+  authorization_servers:
+  - https://auth.bluefishai.com
+  issuer: https://auth.bluefishai.com
+  authorization_endpoint: https://platform.bluefishai.com/connected-apps/authorize
+  token_endpoint: https://auth.bluefishai.com/v1/oauth2/token
+  registration_endpoint: https://auth.bluefishai.com/v1/oauth2/register
+  userinfo_endpoint: https://auth.bluefishai.com/v1/oauth2/userinfo
+  jwks_uri: https://auth.bluefishai.com/.well-known/jwks.json
+  dynamic_client_registration: true
+  client_id_metadata_document_supported: true
+  pkce: [S256]
+  grant_types: [authorization_code, refresh_token, 'urn:ietf:params:oauth:grant-type:jwt-bearer']
+  scopes_required: [mcp:connect]
+  scopes_supported: [openid, profile, email, phone, offline_access, full_access, 'mcp:connect']
+  consent_surface: https://platform.bluefishai.com/connected-apps
+  consent_note: >-
+    The authorization endpoint lives on the customer-facing platform under
+    /connected-apps, which indicates the MCP server is offered to authenticated
+    Bluefish customers as a connectable app rather than to the open public.
+tools:
+- []
+tools_note: >-
+  NOT ENUMERATED. An anonymous POST of {"jsonrpc":"2.0","id":1,"method":"tools/list"}
+  to https://platform.bluefishai.com/mcp returns HTTP 401 invalid_token, so the live
+  tool list and every inputSchema require an authenticated introspection with an
+  mcp:connect-scoped token. Bluefish publishes no llms.txt, no docs page and no
+  OpenAPI, so there is no secondary published source to fall back to. No tool list
+  is recorded here rather than a guessed one — a derived tool list for a server whose
+  real schema is gated would be fabrication. Re-run tools/list once a customer token
+  is available and upgrade this file.
+tool_count: null
+x-evidence:
+  fetched: '2026-08-13'
+  probes:
+  - {url: 'https://mcp.bluefishai.com/', status: 301, note: 'redirects to https://platform.bluefishai.com/mcp/'}
+  - {url: 'https://platform.bluefishai.com/mcp/', status: 308, note: 'trailing-slash normalization to /mcp'}
+  - {url: 'https://platform.bluefishai.com/mcp', status: 401, note: 'GET; application/json invalid_token'}
+  - {url: 'https://platform.bluefishai.com/mcp', status: 401, method: 'POST tools/list', note: 'WWW-Authenticate: Bearer error="invalid_token", resource_metadata="https://platform.bluefishai.com/.well-known/oauth-protected-resource/mcp"'}
+  - {url: 'https://platform.bluefishai.com/.well-known/oauth-protected-resource/mcp', status: 200}
+  - {url: 'https://auth.bluefishai.com/.well-known/oauth-authorization-server', status: 200}
+  - {url: 'https://platform.bluefishai.com/mcp/sse', status: 404}

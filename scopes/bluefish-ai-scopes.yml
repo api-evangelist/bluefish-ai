@@ -1,0 +1,79 @@
+generated: '2026-08-13'
+method: probed
+source: https://auth.bluefishai.com/.well-known/oauth-authorization-server
+docs: null
+docs_note: >-
+  Bluefish publishes no scopes or permissions reference page — there is no developer
+  portal, no docs host and no llms.txt. The scope list below is taken verbatim from
+  the scopes_supported arrays of the provider's own live RFC 8414 and OIDC discovery
+  documents. Descriptions are the standard OIDC/OAuth meanings for the registered
+  scope names; the two Bluefish-specific scopes (mcp:connect, full_access) are
+  recorded with the endpoint evidence for what they gate and are NOT given invented
+  descriptions.
+schemes:
+- name: BluefishOAuth2
+  source: well-known/bluefish-ai-oauth-authorization-server.json
+  issuer: https://auth.bluefishai.com
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://platform.bluefishai.com/connected-apps/authorize
+    tokenUrl: https://auth.bluefishai.com/v1/oauth2/token
+scopes:
+- scope: mcp:connect
+  description: >-
+    Bluefish-specific. Declared by the MCP endpoint's own RFC 9728 protected-resource
+    metadata as a supported scope for the resource
+    https://platform.bluefishai.com/mcp, so it is the scope that gates agent access
+    to the MCP server. Bluefish publishes no prose definition of it.
+  flows: [authorizationCode]
+  sources:
+  - well-known/bluefish-ai-oauth-protected-resource.json
+  - well-known/bluefish-ai-oauth-authorization-server.json
+  - well-known/bluefish-ai-openid-configuration.json
+  gates: https://platform.bluefishai.com/mcp
+- scope: full_access
+  description: >-
+    Bluefish-specific. Advertised only by the OpenID Connect discovery document, not
+    by the RFC 8414 document. No published definition; the name is recorded as served
+    without inferring what it grants.
+  flows: [authorizationCode]
+  sources: [well-known/bluefish-ai-openid-configuration.json]
+- scope: openid
+  description: Standard OIDC scope requesting an ID token.
+  flows: [authorizationCode]
+  sources:
+  - well-known/bluefish-ai-oauth-protected-resource.json
+  - well-known/bluefish-ai-oauth-authorization-server.json
+  - well-known/bluefish-ai-openid-configuration.json
+- scope: offline_access
+  description: Standard OIDC scope requesting a refresh token for long-lived access.
+  flows: [authorizationCode]
+  sources:
+  - well-known/bluefish-ai-oauth-protected-resource.json
+  - well-known/bluefish-ai-oauth-authorization-server.json
+  - well-known/bluefish-ai-openid-configuration.json
+- scope: profile
+  description: Standard OIDC claim scope for basic profile claims.
+  flows: [authorizationCode]
+  sources:
+  - well-known/bluefish-ai-oauth-authorization-server.json
+  - well-known/bluefish-ai-openid-configuration.json
+- scope: email
+  description: Standard OIDC claim scope for the email and email_verified claims.
+  flows: [authorizationCode]
+  sources:
+  - well-known/bluefish-ai-oauth-authorization-server.json
+  - well-known/bluefish-ai-openid-configuration.json
+- scope: phone
+  description: Standard OIDC claim scope for the phone_number and phone_number_verified claims.
+  flows: [authorizationCode]
+  sources:
+  - well-known/bluefish-ai-oauth-authorization-server.json
+  - well-known/bluefish-ai-openid-configuration.json
+scope_count: 7
+x-evidence:
+  fetched: '2026-08-13'
+  probes:
+  - {url: 'https://auth.bluefishai.com/.well-known/oauth-authorization-server', status: 200}
+  - {url: 'https://auth.bluefishai.com/.well-known/openid-configuration', status: 200}
+  - {url: 'https://platform.bluefishai.com/.well-known/oauth-protected-resource/mcp', status: 200}
