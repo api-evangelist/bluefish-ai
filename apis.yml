@@ -11,6 +11,17 @@ description: Bluefish AI is an enterprise AI marketing platform built for Fortun
   remote MCP server at platform.bluefishai.com/mcp, protected by OAuth 2.1 with full RFC 9728 and RFC 8414
   discovery and offered to customers as a connected app.
 url: https://raw.githubusercontent.com/api-evangelist/bluefish-ai/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: enterprise
   onboarding: sales
