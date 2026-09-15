@@ -8,8 +8,8 @@ description: Bluefish AI is an enterprise AI marketing platform built for Fortun
   veterans whose prior advertising technologies are now owned by Microsoft and Meta, and backed by enterprise
   and AI investors including Bloomberg Beta and Threshold Ventures, with a $43M Series B in 2026. Bluefish
   publishes no developer documentation, OpenAPI definition, or SDKs, but it does operate a live first-party
-  remote MCP server at platform.bluefishai.com/mcp, protected by OAuth 2.1 with full RFC 9728 and RFC 8414
-  discovery and offered to customers as a connected app.
+  remote MCP server at platform.bluefishai.com/mcp, protected by OAuth 2.1 with full RFC 9728 and RFC
+  8414 discovery and offered to customers as a connected app.
 url: https://raw.githubusercontent.com/api-evangelist/bluefish-ai/refs/heads/main/apis.yml
 deliveryModel:
   model: saas
@@ -60,7 +60,7 @@ tags:
 - MCP
 - Agents
 apis:
-- aid: bluefish-ai-mcp
+- aid: bluefish-ai:bluefish-ai-mcp
   name: Bluefish AI MCP Server
   description: A live, first-party remote Model Context Protocol server that makes the Bluefish AI platform
     callable by agents over Streamable HTTP. It is protected by OAuth 2.1 and requires the mcp:connect
@@ -122,6 +122,6 @@ x-enrichment:
   status: enriched
   artifacts_added: 9
   pass: local-v1
-  note: Round 2. Contract discovery found a live OAuth-protected remote MCP server at
-    platform.bluefishai.com/mcp that the 2026-07-18 pass missed; the earlier all-404 well-known result
-    is superseded by three real 200 discovery documents.
+  note: Round 2. Contract discovery found a live OAuth-protected remote MCP server at platform.bluefishai.com/mcp
+    that the 2026-07-18 pass missed; the earlier all-404 well-known result is superseded by three real
+    200 discovery documents.
